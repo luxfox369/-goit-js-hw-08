@@ -18,7 +18,7 @@ const refVimeoPlayer = document.querySelector('#vimeo-player');//посилан�
 const player = new Player(refVimeoPlayer); //створення екземпляра плеєра
 const LOCALSTORAGE_KEY = "videoplayer-current-time"; //назва ключа для запису текучого часу програвання
 
-let time = storage.load(LOCALSTORAGE_KEY) || 0; //завантажуємо час як JavaScrypt обєкт з localStorage або 0 
+const time = storage.load(LOCALSTORAGE_KEY) || 0.000001; //завантажуємо час як JavaScrypt обєкт з localStorage або 0 
 console.log('loaded last saved time from localStorage :', time);
 player.setCurrentTime(time); //встановлюємо для плеєра  завантажений час
 
