@@ -8,8 +8,11 @@ const LOCALSTORAGE_KEY = "feedback-form-state"; //назва ключа в local
 
 let formData = new FormData(ref.form); //створили екземпляр класу FormData з нашої форми
 const dataFromStorage = storage.load(LOCALSTORAGE_KEY) || {}; //якщо є  в localStorage то завантажимо дані  або порожній обєкт
+//console.log("на початку dataFromStorage ", dataFromStorage);//{message: 'dataFromStorage', email: 'name@mail.com'}
+// formData = { ...dataFromStorage }; //не розпилює  ????
+// console.log(" formData ", formData); //
 if (dataFromStorage !== {}) {
-    for (key in dataFromStorage) { //повернули в поля форми те що у LocalStorage
+     for (let key in dataFromStorage) { //повернули в поля форми те що у LocalStorage
         ref.form[key].value = dataFromStorage[key];// в поле  властивості key записане  її значення value
     };
 };
@@ -17,9 +20,8 @@ if (dataFromStorage !== {}) {
 ref.form.addEventListener('input', throttle(updateInput, 500));//update що 500ms
 
 function updateInput(event) {
-    //  formData.forEach(() => {
-        formData[event.target.name] = event.target.value;//
-// });       
+    formData = { ...dataFromStorage };//розпиляю попередній стан сховища в поля форми
+    formData[event.target.name] = event.target.value;//записую нові дані при введенні кожного
     storage.save(LOCALSTORAGE_KEY, formData);  // записуємо введене в формі в localStorage
 };
 
@@ -28,7 +30,7 @@ ref.form.addEventListener("submit", onSubmit);
 function onSubmit(event) {
     event.preventDefault();
     let formData = new FormData(event.currentTarget); //створення екзем-ру класу FormData для всієї форми
-    console.log('formData з submit ',formData);
+   // console.log('formData з submit ',formData);
     let objFormData = {};
     //екземпляр класа FormData можна ітерувати по інтерактивних полях у яких key:value key це name а значення це value
     formData.forEach((value, name) => {
