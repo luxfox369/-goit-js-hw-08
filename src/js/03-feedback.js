@@ -20,7 +20,7 @@ if (dataFromStorage !== {}) {
 ref.form.addEventListener('input', throttle(updateInput, 500));//update що 500ms
 
 function updateInput(event) {
-    formData = { ...dataFromStorage };//розпиляю попередній стан сховища в поля форми
+    formData = { ...dataFromStorage };//розпиляю в поля попередній стан сховища в поля форми
     formData[event.target.name] = event.target.value;//записую нові дані при введенні кожного
     storage.save(LOCALSTORAGE_KEY, formData);  // записуємо введене в формі в localStorage
 };
