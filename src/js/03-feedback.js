@@ -6,7 +6,7 @@ const ref = {
 };
 const LOCALSTORAGE_KEY = "feedback-form-state"; //назва ключа в localStorage
 
-let formData = new FormData(ref.form); //створили екземпляр класу FormData з нашої форми
+//let formData = new FormData(ref.form); //створили екземпляр класу FormData з нашої форми
 const dataFromStorage = storage.load(LOCALSTORAGE_KEY) || {}; //якщо є  в localStorage то завантажимо дані  або порожній обєкт
 //console.log("на початку dataFromStorage ", dataFromStorage);//{message: 'dataFromStorage', email: 'name@mail.com'}
 // formData = { ...dataFromStorage }; //не розпилює  ????
@@ -20,7 +20,7 @@ if (dataFromStorage !== {}) {
 ref.form.addEventListener('input', throttle(updateInput, 500));//update що 500ms
 
 function updateInput(event) {
-    formData = { ...dataFromStorage };//розпиляю в поля попередній стан сховища в поля форми
+    let formData = { ...dataFromStorage };//розпиляю в поля попередній стан сховища в поля форми
     formData[event.target.name] = event.target.value;//записую нові дані при введенні кожного
     storage.save(LOCALSTORAGE_KEY, formData);  // записуємо введене в формі в localStorage
 };
@@ -36,7 +36,9 @@ function onSubmit(event) {
     formData.forEach((value, name) => {
       objFormData[name] = value; //в [] ключ обєкта бо змінна /інакше ключ через крапку
     });
+    
     console.log("objFormData: ", objFormData);//вивела обєкт форми
     storage.remove(LOCALSTORAGE_KEY); //очистила сховище по ключу
     event.currentTarget.reset(); //reset currentTarget це ксидання всіх value форми
+    formData = {};
 };
