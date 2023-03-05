@@ -5,7 +5,7 @@
 
 const save = (key, value) => {
   try {
-    console.log("from save try")
+    // console.log("from save try")
     const serializedState = JSON.stringify(value);
     localStorage.setItem(key, serializedState);
   } catch (error) {
@@ -15,7 +15,7 @@ const save = (key, value) => {
 
 const load = key => {
   try {
-    console.log("from load try");
+    // console.log("from load try");
     const serializedState = localStorage.getItem(key);
     return serializedState === null ? undefined : JSON.parse(serializedState);
   } catch (error) {
@@ -25,7 +25,7 @@ const load = key => {
 
 const remove = key => {
   try {
-       console.log("from в remove try")
+    // console.log("from в remove try")
      return localStorage.removeItem(key);
     } catch (error) {
       console.error("Get state error: ", error.message);
