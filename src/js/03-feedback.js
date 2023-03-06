@@ -20,9 +20,15 @@ if (dataFromStorage !== {}) {
 ref.form.addEventListener('input', throttle(updateInput, 500));//update що 500ms
 
 function updateInput(event) {
-    let formData = { ...dataFromStorage };//розпиляю в поля попередній стан сховища в поля форми
-    formData[event.target.name] = event.target.value;//записую нові дані при введенні кожного
-    storage.save(LOCALSTORAGE_KEY, formData);  // записуємо введене в формі в localStorage
+    // let formData = { ...dataFromStorage };//розпиляю в поля попередній стан сховища в поля форми
+    // formData[event.target.name] = event.target.value;//записую нові дані при введенні кожного
+    // storage.save(LOCALSTORAGE_KEY, formData);  // записуємо введене в формі в localStorage
+    // console.log("event.target.name ", event.target.name);
+    // console.log("event.target.value ", event.target.value);
+    const data = storage.load(LOCALSTORAGE_KEY);
+    let  formData = { ...data, [event.target.name]:  event.target.value  };
+    storage.save(LOCALSTORAGE_KEY, formData);  
+
 };
 
 // сабміт
