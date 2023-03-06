@@ -31,8 +31,8 @@ class TodoList {
   #items = localStore.load(this.#STORAGE_KEY) || [];
 
   init(targetNode) {
-    const targetElement = targetNode || document.querySelector('div');
-    targetElement.innerHTML = this.#appMarkup;
+    const targetElement = targetNode || document.querySelector('.for_todo');
+    targetElement.insertAdjacentHTML('afterbegin',this.#appMarkup); //',) ;
 
     this.#defineRefs();
     this.#initListeners();
