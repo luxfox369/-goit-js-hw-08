@@ -1,50 +1,39 @@
 import storage from "./storage";
 import throttle from "lodash.throttle";
 
-const ref = {
+const ref =
+{
     form: document.querySelector(".feedback-form"),
-};
-const LOCALSTORAGE_KEY = "feedback-form-state"; //назва ключа в localStorage
-
-//let formData = new FormData(ref.form); //створили екземпляр класу FormData з нашої форми
-const dataFromStorage = storage.load(LOCALSTORAGE_KEY) || {}; //якщо є  в localStorage то завантажимо дані  або порожній обєкт
-//console.log("на початку dataFromStorage ", dataFromStorage);//{message: 'dataFromStorage', email: 'name@mail.com'}
-// formData = { ...dataFromStorage }; //не розпилює  ????
-// console.log(" formData ", formData); //
-if (dataFromStorage !== {}) {
-     for (let key in dataFromStorage) { //повернули в поля форми те що у LocalStorage
-        ref.form[key].value = dataFromStorage[key];// в поле  властивості key записане  її значення value
-    };
-};
-// input
-ref.form.addEventListener('input', throttle(updateInput, 500));//update що 500ms
-
-function updateInput(event) {
-    // let formData = { ...dataFromStorage };//розпиляю в поля попередній стан сховища в поля форми
-    // formData[event.target.name] = event.target.value;//записую нові дані при введенні кожного
-    // storage.save(LOCALSTORAGE_KEY, formData);  // записуємо введене в формі в localStorage
-    // console.log("event.target.name ", event.target.name);
-    // console.log("event.target.value ", event.target.value);
-    const data = storage.load(LOCALSTORAGE_KEY);
-    let  formData = { ...data, [event.target.name]:  event.target.value  };
-    storage.save(LOCALSTORAGE_KEY, formData);  
-
-};
-
-// сабміт
-ref.form.addEventListener("submit", onSubmit);
-function onSubmit(event) {
-    event.preventDefault();
-    let formData = new FormData(event.currentTarget); //створення екзем-ру класу FormData для всієї форми
-   // console.log('formData з submit ',formData);
-    let objFormData = {};
-    //екземпляр класа FormData можна ітерувати по інтерактивних полях у яких key:value key це name а значення це value
-    formData.forEach((value, name) => {
-      objFormData[name] = value; //в [] ключ обєкта бо змінна /інакше ключ через крапку
-    });
-    
-    console.log("objFormData: ", objFormData);//вивела обєкт форми
-    storage.remove(LOCALSTORAGE_KEY); //очистила сховище по ключу
-    event.currentTarget.reset(); //reset currentTarget це ксидання всіх value форми
-    formData = {};
-};
+   
+}
+//напочатку заповнення форми з того що є в локалсторедж
+const LOCALSTORAGE_KEY = "feedback-form-state";
+let dataFromStorage = storage.load(LOCALSTORAGE_KEY) || {};
+if (dataFromStorage) {
+    for (let name in dataFromStorage) //key це name кожного input в формі
+    {
+        ref.form[name].value = dataFromStorage[name];
+     }
+}
+//записування що 500мс в локалсторедж що є в інпутах
+ref.form.addEventListener('input', throttle(onInput, 500));
+function onInput (e) {
+    dataFromStorage = storage.load(LOCALSTORAGE_KEY);
+    data = { ...dataFromStorage, [e.target.name]: e.target.value };
+    storage.save(LOCALSTORAGE_KEY, data);
+}
+//після натиснення submit обєкт в консоль ,і очистити форму та ключ в локалсторедж
+ref.form.addEventListener('submit', onSubmit);    
+function onSubmit (e) {
+    e.preventDefault();
+    let formData = new FormData(e.currentTarget);
+    //console.log("formData ", formData); //ніби пустий обєкт але там є всі інтерактивні поля з name/value для ітервції
+    const result = {};
+    // formData.forEach((value,name) => result[name] = value);
+    for (let [name, value] of formData) {
+       result[name] = value;  
+    }
+    console.log("result ", result);
+    storage.remove(LOCALSTORAGE_KEY);
+    e.currentTarget.reset();
+}

@@ -22,7 +22,7 @@
     "lodash.throttle": "^4.1.1",
     "modern-normalize": "^1.1.0",
     "nanoid": "^4.0.1",
-    "simplelightbox": "^2.12.1"
+    "simplelightbox": "^2.14.3"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.6.0",

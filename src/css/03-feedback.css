@@ -21,6 +21,7 @@
 }
 
 input,
+select,
 textarea {
   padding: 8px;
   font: inherit;

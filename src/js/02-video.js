@@ -14,21 +14,21 @@ import Player from '@vimeo/player';
 import storage from "./storage";
 import throttle from "lodash.throttle";
 
-const refVimeoPlayer = document.querySelector('#vimeo-player');//посилання на плеєр в html по id
-const player = new Player(refVimeoPlayer); //створення екземпляра плеєра
+const refVimeo = document.querySelector('#vimeo-player');//посилання на плеєр в html по id
+const player = new Player(refVimeo); //створення екземпляра плеєра
 const LOCALSTORAGE_KEY = "videoplayer-current-time"; //назва ключа для запису текучого часу програвання
 
 const time = storage.load(LOCALSTORAGE_KEY) || 0.000001; //завантажуємо час як JavaScrypt обєкт з localStorage або 0 
 console.log('loaded last saved time from localStorage :', time);
-player.setCurrentTime(time); //встановлюємо для плеєра  завантажений час
+player.setCurrentTime(time); //встановлюємо для плеєра  завантажений час = це метод  класу Player
 
-player.on('timeupdate', throttle(onTimeUpdate, 1000)); //обробляємо подію timeupdate
+player.on('timeupdate', throttle(onUpdate, 1000)); //обробляємо подію timeupdate що 1сек записуємо currentTime в localstorage
 
-function onTimeUpdate(currentTime) {
+function onUpdate(currentTime) {
     storage.save(LOCALSTORAGE_KEY, currentTime.seconds); //записуємо обєкт currentTime в JSON формат
     console.log("Save currentTime to LocalStorage in sec ", currentTime.seconds);
 };
-
+// currentTime це обєкт з  3ма ключами
 // const currentTime =
 // {
 //     duration: 61.857,
