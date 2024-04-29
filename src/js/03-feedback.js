@@ -19,7 +19,7 @@ if (dataFromStorage) {
 ref.form.addEventListener('input', throttle(onInput, 500));
 function onInput (e) {
     dataFromStorage = storage.load(LOCALSTORAGE_KEY);
-    data = { ...dataFromStorage, [e.target.name]: e.target.value };
+    let data = { ...dataFromStorage, [e.target.name]: e.target.value };
     storage.save(LOCALSTORAGE_KEY, data);
 }
 //після натиснення submit обєкт в консоль ,і очистити форму та ключ в локалсторедж
