@@ -10,9 +10,9 @@ const ref =
 const LOCALSTORAGE_KEY = "feedback-form-state";
 let dataFromStorage = storage.load(LOCALSTORAGE_KEY) || {};
 if (dataFromStorage) {
-    for (let name in dataFromStorage) //key це name кожного input в формі
+    for (let key in dataFromStorage) //key це name кожного input в формі
     {
-        ref.form[name].value = dataFromStorage[name];
+        ref.form[key].value = dataFromStorage[key];
      }
 }
 //записування що 500мс в локалсторедж що є в інпутах
